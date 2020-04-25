@@ -70,6 +70,36 @@ class Previewer extends Component<any, any> {
         <div className="Previewer">
           <div className="result-template">
             <div className="header">
+              <span className="title">{label}TS对象</span>
+              {scope === 'response' ? (
+                  <a
+                      href={`${serve}/app/mock/template/${interfaceId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                  >
+                    <GoLink className="fontsize-14" />
+                  </a>
+              ) : null}
+            </div>
+            <pre className="body">
+              {JSON.stringify(
+                  template,
+                  (_: any, v) => {
+                    if (typeof v === 'function') {
+                      return v.toString()
+                    }
+                    if (v !== undefined && v !== null && v.exec) {
+                      return v.toString()
+                    } else {
+                      return v
+                    }
+                  },
+                  2,
+              )}
+            </pre>
+          </div>
+          <div className="result-template">
+            <div className="header">
               <span className="title">{label}模板</span>
               {scope === 'response' ? (
                 <a
