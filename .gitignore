@@ -17,3 +17,5 @@ yarn-error.log*
 src/**/*.css
 build
 build.zip
+
+.idea
