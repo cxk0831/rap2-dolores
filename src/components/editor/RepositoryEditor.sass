@@ -19,7 +19,7 @@
       margin: 1rem 0 .5rem
       color: #666
 
-.RelatedProjects 
+.RelatedProjects
   display: flex
   flex-wrap: wrap
   align-items: stretch
@@ -77,7 +77,7 @@
         .highlight
           font-weight: bold
           color: $brand
-      
+
       &:active
         color: #FFF
         > .label
@@ -188,7 +188,7 @@
           overflow: hidden
           white-space: nowrap
           text-overflow: ellipsis
-        .url 
+        .url
           font-size: 1rem
           width: 100%
           overflow: hidden
@@ -290,9 +290,10 @@
       display: flex
       justify-content: space-between
       flex-wrap: wrap
-      margin-top: 1rem
+      > .result-ts,
       > .result-template,
       > .result-mocked
+        margin-top: 3rem
         width: 49%
         > .header
           margin-bottom: .5rem
@@ -308,13 +309,13 @@
         color: #999
 
 @keyframes hightlight
-  0% 
+  0%
     background-color: unset
   50%
     background-color: #fff3cd
-  100% 
+  100%
     background-color: unset
-  
+
 .SortableTreeTable
   .SortableTreeTableHeader,
   .SortableTreeTableRow
@@ -407,7 +408,7 @@
         &.payload.desc
           word-break: break-word
 .SortableTreeTable.editable
-  .flex-row    
+  .flex-row
     .th, .td
       &.operations
         width: 4.5rem
@@ -420,12 +421,12 @@
           &.depth-#{$i}
             padding-left: $i * 1.3rem
             &:after
-              width: $i * 1.3rem 
+              width: $i * 1.3rem
       &.payload.value
         max-height: unset
         overflow-wrap: break-word
-  input.editable, 
-  select.editable, 
+  input.editable,
+  select.editable,
   textarea.editable
     margin: 0
     padding: .5rem .75rem
