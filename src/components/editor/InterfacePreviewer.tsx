@@ -86,7 +86,12 @@ class Previewer extends Component<any, any> {
           2,
       )
       tsString = tsString.replace(/\"(.*)\"/g, $0 => $0.replace(/\"/g, ''))
+      // 删除json字符串后的","
       tsString = tsString.replace(/,\n/g, '\n')
+      // ".*\s" 任意除\n之外的字符加空格 "[\s\S]"任意字符 "\$array"标记数组的特定字符串
+      tsString = tsString.replace(/\n.*\s\{[\s\S]*(\n.*\$array:\s(.*))\n.*?}/g, ($0,  $1, $2) => {
+        return $0.replace($1, '') + $2
+      })
       return (
         <div className="Previewer">
           <div className="result-ts">

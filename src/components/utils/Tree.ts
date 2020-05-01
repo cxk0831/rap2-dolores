@@ -118,7 +118,6 @@ const treeToJson = (tree: any) => {
   return result
 }
 const treeToTsJson = (tree: any) => {
-  console.log('内容输出', tree)
   const parse = (item: any, result: any) => {
     switch (item.type) {
       case 'String':
@@ -141,23 +140,24 @@ const treeToTsJson = (tree: any) => {
         })
         break
       case 'Array':
+        if (item.children.length === 0) {
+          result[item.name] = '[]' + ' // ' + item.description
+        } else {
+          const tempResult: {
+            [propName: string]: any
+          } = {}
+          item.children.forEach((child: any) => {
+            parse(child, tempResult)
+          })
+          tempResult.$array = '[]' + ' // ' + item.description
+          result[item.name] = tempResult
+        }
         break
       case 'Null':
         result[item.name] = null
         break
       default:
         result[item.name] = item.value
-    }
-  }
-
-  function tryToCalculateValue(val: any) {
-    try {
-      // eslint-disable-next-line
-      const v = eval('({ "val" :' + val + '})')
-      return v.val
-    } catch (ex) {
-      console.error(ex)
-      return val
     }
   }
   const result = {}
