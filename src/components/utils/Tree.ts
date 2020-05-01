@@ -117,13 +117,68 @@ const treeToJson = (tree: any) => {
   })
   return result
 }
+const treeToTsJson = (tree: any) => {
+  console.log('内容输出', tree)
+  const parse = (item: any, result: any) => {
+    switch (item.type) {
+      case 'String':
+        result[item.name] = 'string' + ' // ' + item.description
+        break
+      case 'Number':
+        result[item.name] = 'number' + ' // ' + item.description
+        break
+      case 'Boolean':
+        result[item.name] = 'boolean' + ' // ' + item.description
+        break
+      // 如果是function和regExp直接不转换
+      case 'Function':
+      case 'RegExp':
+        break
+      case 'Object':
+        result[item.name] = {}
+        item.children.forEach((child: any) => {
+          parse(child, result[item.name])
+        })
+        break
+      case 'Array':
+        break
+      case 'Null':
+        result[item.name] = null
+        break
+      default:
+        result[item.name] = item.value
+    }
+  }
 
+  function tryToCalculateValue(val: any) {
+    try {
+      // eslint-disable-next-line
+      const v = eval('({ "val" :' + val + '})')
+      return v.val
+    } catch (ex) {
+      console.error(ex)
+      return val
+    }
+  }
+  const result = {}
+  tree.children.forEach((child: any) => {
+    parse(child, result)
+  })
+  return result
+}
 export default {
   arrayToTree,
   treeToArray,
   treeToJson: (tree: any) => {
     try {
       return treeToJson(tree)
+    } catch (e) {
+      return e.message
+    }
+  },
+  treeToTsJson: (tree: any) => {
+    try {
+      return treeToTsJson(tree)
     } catch (e) {
       return e.message
     }
