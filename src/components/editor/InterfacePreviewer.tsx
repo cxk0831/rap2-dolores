@@ -21,7 +21,6 @@ class Previewer extends Component<any, any> {
     let scopedKeys
     let extraKeys
     const { label, scope, properties, interfaceId } = this.props
-
     try {
       // DONE 2.2 支持引用请求参数
       scopedProperties = {
@@ -66,36 +65,36 @@ class Previewer extends Component<any, any> {
       for (const i of valid) {
         console.warn(Assert.message(i))
       }
+      const tsScopedTemplate = {
+        request: Tree.treeToTsJson(Tree.arrayToTree(scopedProperties.request)),
+        response: Tree.treeToTsJson(Tree.arrayToTree(scopedProperties.response)),
+      }
+      const tsTemplate = (tsScopedTemplate as any)[scope]
+      // ts对象
+      let tsString = JSON.stringify(
+          tsTemplate,
+          (_: any, v) => {
+            if (typeof v === 'function') {
+              return v.toString()
+            }
+            if (v !== undefined && v !== null && v.exec) {
+              return v.toString()
+            } else {
+              return v
+            }
+          },
+          2,
+      )
+      tsString = tsString.replace(/\"(.*)\"/g, $0 => $0.replace(/\"/g, ''))
+      tsString = tsString.replace(/,\n/g, '\n')
       return (
         <div className="Previewer">
-          <div className="result-template">
+          <div className="result-ts">
             <div className="header">
-              <span className="title">{label}TS对象</span>
-              {scope === 'response' ? (
-                  <a
-                      href={`${serve}/app/mock/template/${interfaceId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                  >
-                    <GoLink className="fontsize-14" />
-                  </a>
-              ) : null}
+              <span className="title">TS对象</span>
             </div>
             <pre className="body">
-              {JSON.stringify(
-                  template,
-                  (_: any, v) => {
-                    if (typeof v === 'function') {
-                      return v.toString()
-                    }
-                    if (v !== undefined && v !== null && v.exec) {
-                      return v.toString()
-                    } else {
-                      return v
-                    }
-                  },
-                  2,
-              )}
+              {tsString}
             </pre>
           </div>
           <div className="result-template">
