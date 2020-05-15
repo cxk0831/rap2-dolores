@@ -472,6 +472,8 @@ class PropertyList extends PureComponent<any, any> {
     /** optional */
     bodyOption: PropTypes.string,
     requestParamsType: PropTypes.string,
+    subtitle: PropTypes.string,
+    subtitleColor: PropTypes.string,
   }
   static contextTypes = {
     handleAddMemoryProperty: PropTypes.func.isRequired,
@@ -489,6 +491,8 @@ class PropertyList extends PureComponent<any, any> {
   render() {
     const {
       title,
+      subtitle,
+      subtitleColor,
       label,
       scope,
       properties = [],
@@ -512,6 +516,7 @@ class PropertyList extends PureComponent<any, any> {
       <section className="PropertyList">
         <div className="header clearfix">
           <span className="title">{title || `${label}属性`}</span>
+          {subtitle && <span className="subtitle" style={{ color: subtitleColor }}>{subtitle}</span>}
           <div className="toolbar">
             <ButtonGroup size="small" color="primary">
               {editable && [

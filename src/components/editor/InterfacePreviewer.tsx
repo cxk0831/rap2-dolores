@@ -48,7 +48,7 @@ class Previewer extends Component<any, any> {
       )
       scopedData.response = _.pick(scopedData.response, scopedKeys.response)
 
-      const template = (scopedTemplate as any)[scope]
+      let template = (scopedTemplate as any)[scope]
       let data = scopedData[scope]
       if (data._root_) {
         data = data._root_
@@ -69,7 +69,14 @@ class Previewer extends Component<any, any> {
         request: Tree.treeToTsJson(Tree.arrayToTree(scopedProperties.request)),
         response: Tree.treeToTsJson(Tree.arrayToTree(scopedProperties.response)),
       }
-      const tsTemplate = (tsScopedTemplate as any)[scope]
+      let tsTemplate = (tsScopedTemplate as any)[scope]
+
+      /**
+       * 删除response中RESPONSE_RESULT属性
+       */
+      template.RESPONSE_RESULT && (template = template.RESPONSE_RESULT)
+      tsTemplate.RESPONSE_RESULT && (tsTemplate = tsTemplate.RESPONSE_RESULT)
+      data.RESPONSE_RESULT && (data = data.RESPONSE_RESULT)
       // ts对象
       let tsString = JSON.stringify(
           tsTemplate,

@@ -19,7 +19,7 @@ export const RequestPropertyList = (props: any) => {
   return <PropertyList scope="request" title="请求参数" label="请求" {...props} />
 }
 export const ResponsePropertyList = (props: any) => (
-  <PropertyList scope="response" title="响应内容" label="响应" {...props} />
+  <PropertyList scope="response" title="响应内容" subtitle="RESPONSE_RESULT：工具自动生成属性，应对response是array的场景" subtitleColor="red" label="响应" {...props} />
 )
 type InterfaceEditorProps = {
   auth: any
